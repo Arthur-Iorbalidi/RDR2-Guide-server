@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/sequelize";
-import { FilesService } from "src/files/files.service";
-import { CreateLocationDto } from "./dto/create-location.dto";
-import { Location } from "src/location/location.model";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { FilesService } from 'src/files/files.service';
+import { CreateLocationDto } from './dto/create-location.dto';
+import { Location } from 'src/location/location.model';
 
 @Injectable()
 export class LocationService {
@@ -43,7 +43,7 @@ export class LocationService {
   async delete(id: number): Promise<void> {
     const location = await this.getById(id);
 
-    if(location.image) {
+    if (location.image) {
       this.fileService.deleteImage(location.image);
     }
 

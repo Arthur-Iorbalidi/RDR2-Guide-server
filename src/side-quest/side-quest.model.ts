@@ -1,10 +1,19 @@
-import { Table, Column, DataType, Model, BelongsTo, ForeignKey } from "sequelize-typescript";
-import { Location } from "src/location/location.model";
+import {
+  Table,
+  Column,
+  DataType,
+  Model,
+  BelongsTo,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Location } from 'src/location/location.model';
 
 interface SideQuestCreationAttrs {
-  number: number;
   name: string;
   reward: string;
+  questGiver: string;
+  isMissable: boolean;
+  missableChapter?: string;
   locationId?: number;
   image?: string;
 }

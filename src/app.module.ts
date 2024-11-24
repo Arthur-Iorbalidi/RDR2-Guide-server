@@ -52,7 +52,7 @@ import { Handling } from './handling/handling.model';
         StoryQuest,
         UserStoryQuest,
         SideQuest,
-        UserSideQuest
+        UserSideQuest,
       ],
       autoLoadModels: true,
     }),

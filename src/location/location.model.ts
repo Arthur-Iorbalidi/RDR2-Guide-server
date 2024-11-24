@@ -1,4 +1,4 @@
-import { Table, Column, DataType, Model } from "sequelize-typescript";
+import { Table, Column, DataType, Model } from 'sequelize-typescript';
 
 interface LocationCreationAttrs {
   name: string;

@@ -17,6 +17,7 @@ export class FilesService {
         '.pdf',
         '.svg',
         '.webp',
+        '.avif',
       ];
       if (!allowedExtensions.includes(fileExtension.toLowerCase())) {
         throw new HttpException(

@@ -17,6 +17,12 @@ import { StoryQuest } from 'src/story-quest/story-quest.model';
 import { SideQuest } from 'src/side-quest/side-quest.model';
 import { WeaponService } from 'src/weapon/weapon.service';
 import { UserWeapon } from 'src/user_weapon/user_weapon.model';
+import { HorseService } from 'src/horse/horse.service';
+import { UserHorse } from 'src/user_horse/user_horse.model';
+import { StoryQuestService } from 'src/story-quest/story-quest.service';
+import { UserStoryQuest } from 'src/user_story-quest/user_story-quest.model';
+import { SideQuestService } from 'src/side-quest/side-quest.service';
+import { UserSideQuest } from 'src/user_side-quest/user_side-quest.model';
 
 @Injectable()
 export class UserService {
@@ -25,6 +31,14 @@ export class UserService {
     private jwtService: JwtService,
     private weaponService: WeaponService,
     @InjectModel(UserWeapon) private userWeaponRepository: typeof UserWeapon,
+    private horseService: HorseService,
+    @InjectModel(UserHorse) private userHorseRepository: typeof UserHorse,
+    private storyQuestService: StoryQuestService,
+    @InjectModel(UserStoryQuest)
+    private userStoryQuestRepository: typeof UserStoryQuest,
+    private sideQuestService: SideQuestService,
+    @InjectModel(UserSideQuest)
+    private userSideQuestRepository: typeof UserSideQuest,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -151,6 +165,114 @@ export class UserService {
     }
   }
 
+  async addHorseToSaved(userId: number, horseId: number) {
+    if (!userId || !horseId) {
+      throw new BadRequestException('userId or horseId not provided');
+    }
+
+    const user = await this.getUserById(userId);
+    const horse = await this.horseService.getById(horseId);
+
+    if (user && horse) {
+      const userHorse = await this.userHorseRepository.create({
+        userId,
+        horseId,
+      });
+      return userHorse;
+    } else {
+      throw new NotFoundException('User or Horse not found');
+    }
+  }
+
+  async removeHorseFromSaved(userId: number, horseId: number) {
+    if (!userId || !horseId) {
+      throw new BadRequestException('userId or horseId not provided');
+    }
+
+    const userHorseRecord = await this.userHorseRepository.findOne({
+      where: { userId, horseId },
+    });
+
+    if (userHorseRecord) {
+      await userHorseRecord.destroy();
+      return userHorseRecord;
+    } else {
+      throw new NotFoundException("Horse not found in user's saved");
+    }
+  }
+
+  async addStoryQuestToSaved(userId: number, storyQuestId: number) {
+    if (!userId || !storyQuestId) {
+      throw new BadRequestException('userId or storyQuestId not provided');
+    }
+
+    const user = await this.getUserById(userId);
+    const storyQuest = await this.storyQuestService.getById(storyQuestId);
+
+    if (user && storyQuest) {
+      const userStoryQuest = await this.userStoryQuestRepository.create({
+        userId,
+        storyQuestId,
+      });
+      return userStoryQuest;
+    } else {
+      throw new NotFoundException('User or StoryQuest not found');
+    }
+  }
+
+  async removeStoryQuestFromSaved(userId: number, storyQuestId: number) {
+    if (!userId || !storyQuestId) {
+      throw new BadRequestException('userId or storyQuestId not provided');
+    }
+
+    const userStoryQuestRecord = await this.userStoryQuestRepository.findOne({
+      where: { userId, storyQuestId },
+    });
+
+    if (userStoryQuestRecord) {
+      await userStoryQuestRecord.destroy();
+      return userStoryQuestRecord;
+    } else {
+      throw new NotFoundException("StoryQuest not found in user's saved");
+    }
+  }
+
+  async addSideQuestToSaved(userId: number, sideQuestId: number) {
+    if (!userId || !sideQuestId) {
+      throw new BadRequestException('userId or sideQuestId not provided');
+    }
+
+    const user = await this.getUserById(userId);
+    const sideQuest = await this.sideQuestService.getById(sideQuestId);
+
+    if (user && sideQuest) {
+      const userSideQuest = await this.userSideQuestRepository.create({
+        userId,
+        sideQuestId,
+      });
+      return userSideQuest;
+    } else {
+      throw new NotFoundException('User or SideQuest not found');
+    }
+  }
+
+  async removeSideQuestFromSaved(userId: number, sideQuestId: number) {
+    if (!userId || !sideQuestId) {
+      throw new BadRequestException('userId or sideQuestId not provided');
+    }
+
+    const userStoryQuestRecord = await this.userSideQuestRepository.findOne({
+      where: { userId, sideQuestId },
+    });
+
+    if (userStoryQuestRecord) {
+      await userStoryQuestRecord.destroy();
+      return userStoryQuestRecord;
+    } else {
+      throw new NotFoundException("SideQuest not found in user's saved");
+    }
+  }
+
   async getSavedWeapons(userId: number) {
     const user = await this.userRepository.findOne({
       where: { id: userId },
@@ -158,5 +280,32 @@ export class UserService {
     });
 
     return user.weapons;
+  }
+
+  async getSavedHorses(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      include: [Horse],
+    });
+
+    return user.horses;
+  }
+
+  async getSavedStoryQuests(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      include: [StoryQuest],
+    });
+
+    return user.storyQuests;
+  }
+
+  async getSavedSideQuests(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      include: [SideQuest],
+    });
+
+    return user.sideQuests;
   }
 }

@@ -1,6 +1,13 @@
-import { Table, Column, DataType, Model, BelongsTo, ForeignKey } from "sequelize-typescript";
-import { Handling } from "src/handling/handling.model";
-import { Location } from "src/location/location.model";
+import {
+  Table,
+  Column,
+  DataType,
+  Model,
+  BelongsTo,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Handling } from 'src/handling/handling.model';
+import { Location } from 'src/location/location.model';
 
 interface HorseCreationAttrs {
   name: string;

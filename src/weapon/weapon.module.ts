@@ -10,6 +10,6 @@ import { FilesModule } from 'src/files/files.module';
   controllers: [WeaponController],
   providers: [WeaponService],
   imports: [SequelizeModule.forFeature([Weapon, Location]), FilesModule],
-  exports: [WeaponService]
+  exports: [WeaponService],
 })
 export class WeaponModule {}

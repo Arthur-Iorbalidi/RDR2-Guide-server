@@ -1,5 +1,12 @@
-import { Table, Column, DataType, Model, BelongsTo, ForeignKey } from "sequelize-typescript";
-import { Location } from "src/location/location.model";
+import {
+  Table,
+  Column,
+  DataType,
+  Model,
+  BelongsTo,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Location } from 'src/location/location.model';
 
 interface StoryQuestCreationAttrs {
   number: number;

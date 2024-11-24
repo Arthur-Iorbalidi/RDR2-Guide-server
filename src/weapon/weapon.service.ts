@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
 import { CreateWeaponDto } from './dto/create-weapon.dto';
 import { Weapon } from './weapon.model';
+import { Location } from 'src/location/location.model';
 
 @Injectable()
 export class WeaponService {
@@ -26,12 +27,17 @@ export class WeaponService {
     return weapon;
   }
 
-  async getAll(): Promise<Weapon[]> {
-    return this.weaponRepository.findAll();
+  async getAll() {
+    const weapons = await this.weaponRepository.findAll();
+    return {
+      data: weapons,
+    };
   }
 
   async getById(id: number): Promise<Weapon> {
-    const weapon = await this.weaponRepository.findByPk(id);
+    const weapon = await this.weaponRepository.findByPk(id, {
+      include: [Location],
+    });
 
     if (!weapon) {
       throw new NotFoundException(`Weapon with id ${id} not found`);
@@ -43,7 +49,7 @@ export class WeaponService {
   async delete(id: number): Promise<void> {
     const weapon = await this.getById(id);
 
-    if(weapon.image) {
+    if (weapon.image) {
       this.fileService.deleteImage(weapon.image);
     }
 

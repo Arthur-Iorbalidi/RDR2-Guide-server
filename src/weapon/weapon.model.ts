@@ -1,5 +1,12 @@
-import { Table, Column, DataType, ForeignKey, BelongsTo, Model } from "sequelize-typescript";
-import { Location } from "src/location/location.model";
+import {
+  Table,
+  Column,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  Model,
+} from 'sequelize-typescript';
+import { Location } from 'src/location/location.model';
 
 interface WeaponCreationAttrs {
   name: string;

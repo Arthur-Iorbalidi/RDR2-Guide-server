@@ -57,27 +57,99 @@ export class UserController {
     return this.userService.updateUser(userId, updateUserDto);
   }
 
-  // @UseGuards(JwtAuthGuard)
-  // @Post('saved/weapon/:id')
-  // addFavoriteMovie(@Req() req, @Param('id') id: number) {
-  //   const userId: number = req.user.id;
+  @UseGuards(JwtAuthGuard)
+  @Post('saved/weapons/:id')
+  addWeaponToSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
 
-  //   return this.userService.addWeaponToSaved(userId, id);
-  // }
+    return this.userService.addWeaponToSaved(userId, id);
+  }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('saved/weapon/:id')
-  removeFavoriteMovie(@Req() req, @Param('id') id: number) {
+  @Delete('saved/weapons/:id')
+  removeWeaponFromSaved(@Req() req, @Param('id') id: number) {
     const userId: number = req.user.id;
 
     return this.userService.removeWeaponFromSaved(userId, id);
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('saved/horses/:id')
+  addHorseToSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.addHorseToSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('saved/horses/:id')
+  removeHorseFromSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.removeHorseFromSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('saved/story-quests/:id')
+  addStoryQuestToSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.addStoryQuestToSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('saved/story-quests/:id')
+  removeStoryQuestFromSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.removeStoryQuestFromSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('saved/side-quests/:id')
+  addSideQuestToSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.addSideQuestToSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('saved/side-quests/:id')
+  removeSideQuestFromSaved(@Req() req, @Param('id') id: number) {
+    const userId: number = req.user.id;
+
+    return this.userService.removeSideQuestFromSaved(userId, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('saved/weapons')
-  getFavoritesMovies(@Req() req) {
+  getSavedWeapons(@Req() req) {
     const userId: number = req.user.id;
 
     return this.userService.getSavedWeapons(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('saved/horses')
+  getSavedHorses(@Req() req) {
+    const userId: number = req.user.id;
+
+    return this.userService.getSavedHorses(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('saved/story-quests')
+  getSavedStoryQuests(@Req() req) {
+    const userId: number = req.user.id;
+
+    return this.userService.getSavedStoryQuests(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('saved/side-quests')
+  getSavedSideQuests(@Req() req) {
+    const userId: number = req.user.id;
+
+    return this.userService.getSavedSideQuests(userId);
   }
 }

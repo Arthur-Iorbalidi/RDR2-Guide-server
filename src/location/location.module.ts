@@ -8,6 +8,6 @@ import { FilesModule } from 'src/files/files.module';
 @Module({
   controllers: [LocationController],
   providers: [LocationService],
-  imports: [SequelizeModule.forFeature([Location]), FilesModule]
+  imports: [SequelizeModule.forFeature([Location]), FilesModule],
 })
 export class LocationModule {}
