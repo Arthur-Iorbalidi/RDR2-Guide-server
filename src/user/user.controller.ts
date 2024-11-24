@@ -57,13 +57,13 @@ export class UserController {
     return this.userService.updateUser(userId, updateUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('saved/weapon/:id')
-  addFavoriteMovie(@Req() req, @Param('id') id: number) {
-    const userId: number = req.user.id;
+  // @UseGuards(JwtAuthGuard)
+  // @Post('saved/weapon/:id')
+  // addFavoriteMovie(@Req() req, @Param('id') id: number) {
+  //   const userId: number = req.user.id;
 
-    return this.userService.addWeaponToSaved(userId, id);
-  }
+  //   return this.userService.addWeaponToSaved(userId, id);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Delete('saved/weapon/:id')

@@ -5,11 +5,12 @@ interface WeaponCreationAttrs {
   name: string;
   damage: number;
   range: number;
+  reloadSpeed: number;
   firingRate: number;
   accuracy: number;
   ammo: number;
   cost: number;
-  isUnique: number;
+  isUnique: boolean;
   locationId?: number;
   image?: string;
 }
@@ -33,6 +34,9 @@ export class Weapon extends Model<Weapon, WeaponCreationAttrs> {
   @Column({ type: DataType.FLOAT, allowNull: false })
   range: number;
 
+  @Column({ type: DataType.FLOAT, allowNull: false })
+  reloadSpeed: number;
+
   @Column({ type: DataType.FLOAT, allowNull: true })
   firingRate: number;
 
@@ -42,7 +46,7 @@ export class Weapon extends Model<Weapon, WeaponCreationAttrs> {
   @Column({ type: DataType.FLOAT, allowNull: true })
   ammo: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: true })
+  @Column({ type: DataType.FLOAT, allowNull: true })
   cost: number;
 
   @Column({ type: DataType.BOOLEAN, allowNull: false })

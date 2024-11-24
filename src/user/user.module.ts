@@ -12,6 +12,7 @@ import { StoryQuest } from 'src/story-quest/story-quest.model';
 import { UserStoryQuest } from 'src/user_story-quest/user_story-quest.model';
 import { SideQuest } from 'src/side-quest/side-quest.model';
 import { UserSideQuest } from 'src/user_side-quest/user_side-quest.model';
+import { WeaponModule } from 'src/weapon/weapon.module';
 
 @Module({
   controllers: [UserController],
@@ -29,6 +30,7 @@ import { UserSideQuest } from 'src/user_side-quest/user_side-quest.model';
       UserSideQuest
     ]),
     forwardRef(() => AuthModule),
+    WeaponModule
   ],
   exports: [UserService],
 })

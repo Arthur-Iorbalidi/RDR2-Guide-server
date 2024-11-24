@@ -44,4 +44,13 @@ export class FilesService {
       );
     }
   }
+
+  async deleteImage(fileName: string): Promise<void> {
+    try {
+      const filePath = path.resolve(__dirname, '..', '..', 'static', fileName);
+      await fs.promises.unlink(filePath);
+    } catch (error) {
+      console.error(`Failed to delete file ${fileName}:`, error.message);
+    }
+  }
 }

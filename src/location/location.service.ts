@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLocationDto } from './dto/create-location.dto';
-import { UpdateLocationDto } from './dto/update-location.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/sequelize";
+import { FilesService } from "src/files/files.service";
+import { CreateLocationDto } from "./dto/create-location.dto";
+import { Location } from "src/location/location.model";
 
 @Injectable()
 export class LocationService {
-  create(createLocationDto: CreateLocationDto) {
-    return 'This action adds a new location';
+  constructor(
+    @InjectModel(Location) private locationRepository: typeof Location,
+    private readonly fileService: FilesService,
+  ) {}
+
+  async create(dto: CreateLocationDto, image?: any): Promise<Location> {
+    let fileName: string | null = null;
+
+    if (image) {
+      fileName = await this.fileService.createImage(image);
+    }
+
+    const location = await this.locationRepository.create({
+      ...dto,
+      image: fileName,
+    });
+
+    return location;
   }
 
-  findAll() {
-    return `This action returns all location`;
+  async getAll(): Promise<Location[]> {
+    return this.locationRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} location`;
+  async getById(id: number): Promise<Location> {
+    const location = await this.locationRepository.findByPk(id);
+
+    if (!location) {
+      throw new NotFoundException(`Location with id ${id} not found`);
+    }
+
+    return location;
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    return `This action updates a #${id} location`;
-  }
+  async delete(id: number): Promise<void> {
+    const location = await this.getById(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} location`;
+    if(location.image) {
+      this.fileService.deleteImage(location.image);
+    }
+
+    await location.destroy();
   }
 }
