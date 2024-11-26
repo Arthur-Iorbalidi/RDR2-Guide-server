@@ -27,8 +27,12 @@ export class SideQuestService {
     return sideQuest;
   }
 
-  async getAll(): Promise<SideQuest[]> {
-    return this.sideQuestRepository.findAll();
+  async getAll() {
+    const sideQuests = await this.sideQuestRepository.findAll();
+
+    return {
+      data: sideQuests,
+    };
   }
 
   async getById(id: number): Promise<SideQuest> {

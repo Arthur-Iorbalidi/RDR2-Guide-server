@@ -4,6 +4,7 @@ import { Horse } from './horse.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
 import { Location } from 'src/location/location.model';
+import { Handling } from 'src/handling/handling.model';
 
 @Injectable()
 export class HorseService {
@@ -27,13 +28,19 @@ export class HorseService {
     return horse;
   }
 
-  async getAll(): Promise<Horse[]> {
-    return this.horseRepository.findAll();
+  async getAll() {
+    const horses = await this.horseRepository.findAll({
+      include: [Handling, Location],
+    });
+
+    return {
+      data: horses,
+    };
   }
 
   async getById(id: number): Promise<Horse> {
     const horse = await this.horseRepository.findByPk(id, {
-      include: [Location],
+      include: [Location, Handling],
     });
 
     if (!horse) {

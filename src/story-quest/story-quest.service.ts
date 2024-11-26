@@ -27,8 +27,12 @@ export class StoryQuestService {
     return storyQuest;
   }
 
-  async getAll(): Promise<StoryQuest[]> {
-    return this.storyQuestRepository.findAll();
+  async getAll() {
+    const storyQuests = await this.storyQuestRepository.findAll();
+
+    return {
+      data: storyQuests,
+    };
   }
 
   async getById(id: number): Promise<StoryQuest> {
